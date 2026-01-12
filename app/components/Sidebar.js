@@ -11,14 +11,17 @@ import {
   Toolbar,
   Divider,
 } from "@mui/material";
+
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import GavelIcon from "@mui/icons-material/Gavel";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SettingsIcon from "@mui/icons-material/Settings";
+
 import { useRouter } from "next/navigation";
 
 const DRAWER_WIDTH = 240;
 
-// Mixin for open state
+/* ================= OPENED MIXIN ================= */
 const openedMixin = (theme) => ({
   width: DRAWER_WIDTH,
   transition: theme.transitions.create("width", {
@@ -26,11 +29,11 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  background: "linear-gradient(180deg, #1e293b 0%, #0f172a 100%)", // Dark Gradient
+  background: "linear-gradient(180deg, #1e293b 0%, #0f172a 100%)",
   color: "#ffffff",
 });
 
-// Mixin for closed state
+/* ================= CLOSED MIXIN ================= */
 const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -45,39 +48,67 @@ const closedMixin = (theme) => ({
   color: "#ffffff",
 });
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    width: DRAWER_WIDTH,
-    flexShrink: 0,
-    whiteSpace: "nowrap",
-    boxSizing: "border-box",
-    ...(open && {
-      ...openedMixin(theme),
-      "& .MuiDrawer-paper": openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      "& .MuiDrawer-paper": closedMixin(theme),
-    }),
-  })
-);
+/* ================= DRAWER ================= */
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: DRAWER_WIDTH,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
 
+/* ================= SIDEBAR ================= */
 export default function Sidebar({ open }) {
   const router = useRouter();
 
   const menuItems = [
-    { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard", color: "#60a5fa" },
-    { text: "Settings", icon: <SettingsIcon />, path: "/settings", color: "#94a3b8" },
-    { text: "Logout", icon: <LogoutIcon />, path: "/", color: "#f87171" },
+    {
+      text: "Dashboard",
+      icon: <DashboardIcon />,
+      path: "/dashboard", // redirects to /dashboard/products
+      color: "#60a5fa",
+    },
+    {
+      text: "Products",
+      icon: <InventoryIcon />,
+      path: "/dashboard/products",
+      color: "#34d399",
+    },
+    {
+      text: "Bids",
+      icon: <GavelIcon />,
+      path: "/dashboard/bids",
+      color: "#fbbf24",
+    },
+    {
+      text: "Logout",
+      icon: <LogoutIcon />,
+      path: "/",
+      color: "#f87171",
+    },
   ];
 
   return (
     <Drawer variant="permanent" open={open}>
-      <Toolbar /> {/* Spacer */}
+      <Toolbar />
       <Divider sx={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
+
       <List sx={{ px: 1.5 }}>
         {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding sx={{ display: "block", mb: 1 }}>
+          <ListItem
+            key={item.text}
+            disablePadding
+            sx={{ display: "block", mb: 1 }}
+          >
             <ListItemButton
               onClick={() => router.push(item.path)}
               sx={{
@@ -102,6 +133,7 @@ export default function Sidebar({ open }) {
               >
                 {item.icon}
               </ListItemIcon>
+
               <ListItemText
                 primary={item.text}
                 sx={{
