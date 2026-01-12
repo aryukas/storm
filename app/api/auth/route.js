@@ -55,12 +55,13 @@ export async function POST(req) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
-    // 🔒 HTTP-only session cookie
-    cookies().set("session", user.id, {
+    // ✅ FIX: Await cookies() before using .set()
+    const cookieStore = await cookies();
+    cookieStore.set("session", user.id.toString(), {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production", // Better for local development
       sameSite: "strict",
-      path: "/"
+      path: "/",
     });
 
     return NextResponse.json({ success: true });

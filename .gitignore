@@ -256,3 +256,5 @@ next-env.d.ts
 >>>>>>> 042bd3f (Initial commit from Create Next App)
 =======
 >>>>>>> main
+
+/lib/generated/prisma
