@@ -5,14 +5,11 @@ import { query } from "@/lib/db";
 export async function GET() {
   try {
     const { rows } = await query(
-      "SELECT * FROM products ORDER BY created_at DESC"
+      "SELECT id, name, price, quantity FROM products ORDER BY created_at DESC"
     );
     return NextResponse.json(rows);
   } catch (err) {
-    return NextResponse.json(
-      { error: err.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
@@ -31,15 +28,12 @@ export async function POST(req) {
     const { rows } = await query(
       `INSERT INTO products (name, price, quantity)
        VALUES ($1, $2, $3)
-       RETURNING *`,
+       RETURNING id, name, price, quantity`,
       [name, price, quantity || 0]
     );
 
     return NextResponse.json(rows[0], { status: 201 });
   } catch (err) {
-    return NextResponse.json(
-      { error: err.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
