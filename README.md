@@ -1,7 +1,3 @@
-
----
-
-````md
 # Storm ⚡
 
 Storm is a **prototype Next.js application** built with a modern full-stack setup.  
@@ -40,15 +36,6 @@ Open in browser:
 ```
 http://localhost:3000
 ```
-
-## Project Structure (High Level)
-
-* `app/` – UI routes & pages
-* `api/` – Backend API routes
-* `lib/` – Database & helpers
-* `services/` – Axios API calls
-* `prisma/` – PostgreSQL schema (if used)
-
 ## Environment Variables
 
 Create a `.env` file:
@@ -68,16 +55,3 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
 ---
 
 Feel free to fork, modify, and build on top of this project 🚀
-
-```
-
----
-
-You’re all set 💯  
-If you want, I can next:
-- Add **Prisma setup steps**
-- Add **API endpoint examples**
-- Convert this into a **production-ready README**
-
-Just say the word 👍
-```
